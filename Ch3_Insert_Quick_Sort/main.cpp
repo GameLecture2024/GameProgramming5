@@ -105,7 +105,9 @@ void InsertSort(std::vector<int>& nums)
    정렬되어 있는 케이스를 받을 때 비효율적이다.
 */
 
-void quickSort(int data[], int start, int end)
+// bool compare	( a < b) return
+
+void quickSort(int data[], int start, int end)	// true, false
 {
 	if (start >= end) // 데이터가 1개만 있을 때 , 재귀 함수를 끝내기 위한 조건 return 표현
 	{
@@ -118,12 +120,12 @@ void quickSort(int data[], int start, int end)
 	int temp;			 // swap 사용하기 위한 임시 변수
 
 	while (i <= j) { // 왼쪽 인덱스를 오른쪽 인덱스가 추월 했을 때 까지 반복
-		while (data[i] <= data[pivot] )// 피벗보다 큰 값을 만날 때 그 값을 찾아라
+		while (i <= end && data[i] >= data[pivot] )// 피벗보다 큰 값을 만날 때 그 값을 찾아라
 		{
 			//(작을 때 계속 i를 증가해라)
 			i++;
 		}
-		while (j > start && data[j] >= data[pivot])    // 피벗보다 작은 값을 만날 때 그 값을 선택해라
+		while (j > start && data[j] <= data[pivot])    // 피벗보다 작은 값을 만날 때 그 값을 선택해라
 		{
 			//(j의 값을 변경해주는 코드)
 			j--;
@@ -155,6 +157,11 @@ void quickSort(int data[], int start, int end)
 		quickSort(data, j+1 , end);	// 오른쪽
 	}
 }
+
+/*
+*  내림차순 버전으로 퀵 정렬을 구현을 해보세요.
+*  왼쪽과 오른쪽을 비교하는 코드를 (오름차순 : 왼쪽이 작은 수 ) (내림차순  왼쪽이 큰 수 )
+*/
 
 void quickSort(std::vector<int>& data, int start, int end)
 {
@@ -195,13 +202,13 @@ int main()
 		std::cout << arr2[i] << " ";
 	}
 
-	std::cout << "\n\n퀵 정렬 vector 형식" << std::endl;
-	std::vector<int> nums2 = { 3, 5, 9 , 1 , 2 , 4 , 6, 8, 7 ,0 };
-	quickSort(nums1, 0, nums2.size()-1);
-
-	for (int num : nums2)
-	{
-		std::cout << num << " ";
-	}
+	//std::cout << "\n\n퀵 정렬 vector 형식" << std::endl;
+	//std::vector<int> nums2 = { 3, 5, 9 , 1 , 2 , 4 , 6, 8, 7 ,0 };
+	//quickSort(nums1, 0, nums2.size()-1);
+	//
+	//for (int num : nums2)
+	//{
+	//	std::cout << num << " ";
+	//}
 
 }
