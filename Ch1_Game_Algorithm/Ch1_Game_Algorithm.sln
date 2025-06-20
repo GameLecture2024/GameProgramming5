@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch5_sort_search", "..\Ch5_s
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch6_Tree", "..\Ch6_Tree\Ch6_Tree.vcxproj", "{E5642A7F-E8F5-4742-982D-3D93D2CBEB60}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch7_kthFind", "..\Ch7_kthFind\Ch7_kthFind.vcxproj", "{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{E5642A7F-E8F5-4742-982D-3D93D2CBEB60}.Release|x64.Build.0 = Release|x64
 		{E5642A7F-E8F5-4742-982D-3D93D2CBEB60}.Release|x86.ActiveCfg = Release|Win32
 		{E5642A7F-E8F5-4742-982D-3D93D2CBEB60}.Release|x86.Build.0 = Release|Win32
+		{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}.Debug|x64.ActiveCfg = Debug|x64
+		{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}.Debug|x64.Build.0 = Debug|x64
+		{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}.Debug|x86.ActiveCfg = Debug|Win32
+		{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}.Debug|x86.Build.0 = Debug|Win32
+		{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}.Release|x64.ActiveCfg = Release|x64
+		{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}.Release|x64.Build.0 = Release|x64
+		{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}.Release|x86.ActiveCfg = Release|Win32
+		{7355A77A-5EBA-4977-9DD4-4E1C5D7E3D67}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
