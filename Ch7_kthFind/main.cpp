@@ -26,7 +26,7 @@ void EmergencyExample()
 
 	for (int i = 0; i < people.size(); i++)
 	{
-		sheets.insert({ i,people[i] });
+		sheets.insert({ people[i] , i }); // 위급도 key, 인덱스 second (value)
 	}
 
 	// poeple 값을 정렬.
@@ -53,8 +53,8 @@ void EmergencyExample()
 	for (int i = 0; i < people.size(); i++)	 //7
 	{
 		auto it = sheets.find(people[people.size() - 1 - i]);
-		int key = it->first;
-		answer[key] = i + 1;
+		int index = it->second;
+		answer[index] = i + 1;
 	}
 
 	std::cout << "[";
