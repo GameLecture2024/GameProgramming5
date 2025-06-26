@@ -1,80 +1,16 @@
-/*
-*  1. 정렬 (데이터 순서 대로 나열) 
-*  2. 탐색 (데이터의 수정 및 삭제)
-* 
-*  - vector 정렬 시키고 이진 탐색
-*  - Tree 자료 구조, 이진 검색 트리
-*  - Heap ( 우선순위 큐 priority_queue)
-*  
-*  - Graph 탐색.
-*/
-
-/*
-*  그래프가 무엇일까?
-*  - 점(vertex)과 간선(edge)으로 표현한 자료구조이다.
-*  - <기준>
-*  1. 방향(Direcion)이 존재하는가 안하는가?
-*  2. 순환(Cycle)이 존재하는가?
-*  3. 가중치(weight)가 존재하는가?
-
-    Tree : DAG(방향이 존재하고, ACycle 순환이 없는 , Graph 그래프)
-*/
-
-/*
-*  그래서 그래프를 어떻게 표현할 것인가?
-*  1. 2차원 배열 (Matrix방식)
-*  2. 각 정점에서 연결된 데이터를 자료구조 표현하는 방식
-*/
-
 #include <iostream>
+#include <queue>
+#include <stack>
 #include <vector>
-#include <stack>     // DFS - stack 표현한다.    LIFO
-#include <queue>     // BFS - queue 표현한다.    FIFO
 
 using namespace std;
 
 /*
-*  그래프를 Matrix로 표현했을 때 실제로 어떻게 점과 선이 연결되어있는지 알 수 있다.
-*     A B C D
-*   A 0 1 1 1
-*   B 1 0 1 1
-*   C 1 1 0 0
-*   D 1 1 0 0
-*/
-
-/*
-*   A ('A'-'0'  :(연결된 데이터) B - C - D
-*   B : A - C - D
-*   C : A - B
-*   D : A - B
-*/
-
-/*
-*   프로그래밍으로 그래프를 표현할 수 있게 되었습니다.
-*   연결되어 있는 그래프를 탐색을 하는 방법?
-*   [1] 깊이 우선 탐색 (Depth first Search)
-*   [2] 너비 우선 탐색 (Breadth First Search)
-*/
-
-/*
-*  게임 속에서 점과 선으로 연결되어 있는 이미지를 하나 찾아보세요.
-*  점과 선을 그래프로 표현하는 것을 아무 주제나 선택해보세요 실행해보세요. 
-*/
-
-/*
-*  그래프의 탐색 방법(순회)
-*  - DFS 깊이 우선 탐색
-*    - Stack구현  - 세로 상자
-*  - BFS 너비 우선 탐색
-*    - Queue구현  - 가로 상자
-*/
-
-/*
-*   언제 DFS와 BFS를 사용할 수 있는가?
-*   - (1) 그래프를 탐색할 때 쉽게 구현할 수 있는 것을 선택하세요. 둘 다 사용할 수 있다.
-*   - (2) DFS - 그래프가 순회를 하고 있는지 파악할 때
-*   - (3) BFS - 특정 위치 까지 최소의 거리로 도달하는 방법을 구할 때 
-* 
+*  1. DFS
+*   - 그래프가 모두 연결이 되어 있는가? connected Graph
+*   - 핵심 아이디어 : 그래프 (점, 선)  
+*   - 점의 갯수가 고정되어 있다. 
+*   - 만약에 점 사이에 연결된 길이 없다면 순회하면서 만나 점의 갯수를 증가시키는 결과 값, 점의 수가 다르게 나올 것이다.
 */
 
 class Graph
@@ -94,9 +30,9 @@ private:
 
         for (auto& i : adj[v])
         {
-             // adj B, C ,D  ("B")->DFS실행. 재귀 방식.
-            if(visited[i] == false) // 만약에 방문을 했다면  DFS 실행하지마세요.
-             DFS(i);    // DFS(B) -> DFS(C) -> DFS(D)
+            // adj B, C ,D  ("B")->DFS실행. 재귀 방식.
+            if (visited[i] == false) // 만약에 방문을 했다면  DFS 실행하지마세요.
+                DFS(i);    // DFS(B) -> DFS(C) -> DFS(D)
         }
     }
 
@@ -104,8 +40,8 @@ private:
     {
         // 방문한 점은 true 변환합니다.
         // 재귀 함수 방식을 사용하지 않고 반복문 사용해서 표현해보세요.
-        stack<int> stack; 
-        stack.push(v);    
+        stack<int> stack;
+        stack.push(v);
         while (!stack.empty())
         {
             int cVertex = stack.top();
@@ -150,15 +86,15 @@ private:
             cout << c << " ";
 
             // c에 연결되어 있는 노드를 접근하는 코드 adj[c]
-            
+
             for (auto& e : adj[c])
             {
                 if (visited[e] == false)
                 {
                     visited[e] = true;
                     q.push(e);
-                }            
-            }           
+                }
+            }
         }
     }
 
@@ -181,8 +117,8 @@ private:
             {
                 visited[e] = true;
                 q.push(e);
-            }         
-        }  
+            }
+        }
 
         BFSRecursive(q);
     }
@@ -199,7 +135,7 @@ public:
     // 생성자. 점의 갯수, 2차원 배열을 V의 갯수 만큼 모두 0으로 초기화
     Graph(int vertices) : V(vertices)
     {
-        adj.resize(V); 
+        adj.resize(V);
         visited.resize(V, false);
     }
 
@@ -241,7 +177,7 @@ public:
         cout << endl;
     }
 
-    void BFSIterTraverse(int startV) 
+    void BFSIterTraverse(int startV)
     {
         fill(visited.begin(), visited.end(), false); // 방문 경험을 초기화 하는 코드
         cout << "BFS Iterative 방식 탐색 결과 (시작 지점 : " << startV << ")" << endl;
@@ -256,35 +192,108 @@ public:
         BFS(startV);
         cout << endl;
     }
-};
 
-class GraphMatrix
-{
-private:
-    int V;
-    vector<vector<int>> adj;
+    // 모든 그래프가 연결되어 있나요?
 
-public:
-    GraphMatrix(int v) : V(v), adj(v, vector<int>(v, 0)) {}  // v * v 2차원 배열을 0으로 초기화
-
-    void addEdge(int u, int v)
+    void dfsCount(int& count, int startV)
     {
-        adj[u][v] = 1;  // 단 방향
-        adj[v][u] = 1;
-    }
+        // DFS - stack
+        visited[startV] = true;
+        count++;
 
-    void PrintGraph()
-    {
-        cout << "인접 행렬" << endl;
-        for (int i = 0; i < V; i++)
+        for (int e : adj[startV])
         {
-            for (int j = 0; j < V; j++)
+            if (!visited[e])
             {
-                cout << adj[i][j] << " ";
+                visited[e] = true;
+                dfsCount(count, e);
             }
-            cout << endl;
         }
     }
+
+    bool IsConnected(int startV)
+    {
+        fill(visited.begin(), visited.end(), false);
+
+        int count = 0;
+        // DFS 순회하면서 출력 대신에 count수를 증가시켜라.
+        dfsCount(count, startV);
+        return count == V;  
+    }
+
+    void CheckGraphIsConnected()
+    {
+        if (IsConnected(0))
+        {
+            cout << "모든 그래프가 연결되었습니다." << endl;
+        }
+        else
+        {
+            cout << "연결되지 않은 그래프가 존재합니다." << endl;
+            cout << "-1";
+        }
+    }
+
+    // 경로 찾기 (최소의 거리를 찾는 문제) - BFS, 다익스트라(비용이 있을 때 길을 찾는 방법), 프림
+    // start -> end
+
+    vector<int> refindPath(vector<int>& parent, int start, int end)
+    {
+        vector<int> path;
+
+        if (parent[end] == -1 && start != end)  // parent -1로 초기화. 접근을 못한다? 길을 못찾았다.
+        {
+            return path; // 경로가 없는 데이터를 반환.
+        }
+
+        int current = end;
+        while (current != -1)
+        {
+            path.insert(path.begin(), current);
+            current = parent[current];
+        }
+
+        return path;
+    }
+
+    vector<int> findShortestPath(int start, int end)
+    {
+        if (start == end) return { start };
+
+        fill(visited.begin(), visited.end(), false); 
+
+        vector<int> parent(V, -1);   // 목표 지점까지의 배열을 저장한다.
+        vector<int> distance(V, -1); // 노드의 거리를 저장하는 배열
+        queue<int> q;
+        q.push(start);
+        visited[start] = true;
+        distance[start] = 0;
+
+        while (!q.empty())
+        {
+            int c = q.front();
+            q.pop();
+
+            // while 강제 종료해야하는 조건. (현재 노드가 목표 지점에 도착했을 때)
+            if (end == c) break;
+
+            // 도착을 안햇으면?
+            for (int e : adj[c])
+            {
+                if (!visited[e])
+                {
+                    visited[e] = true;
+                    q.push(e);
+                    parent[e] = c;
+                    distance[e] = distance[c] + 1;
+                }            
+            }          
+        }
+         
+        return refindPath(parent, start, end);
+    }
+
+  
 
 };
 
@@ -293,21 +302,17 @@ int main()
     Graph g(6);
     g.addEdge(0, 1);
     g.addEdge(0, 2);
-    g.addEdge(1, 3);
+    //g.addEdge(1, 3);
     g.addEdge(2, 4);
     g.addEdge(2, 5);
-    g.DFSTraverse(3);
-    g.DFSIterTraverse(3);
-    g.BFSIterTraverse(0);
-    g.BFSTraverse(0);
-    g.PrintGraph();
+    g.CheckGraphIsConnected();
 
-    GraphMatrix gm(4);
-    gm.addEdge(0, 1);
-    gm.addEdge(0, 2);
-    gm.addEdge(0, 3);
-    gm.addEdge(1, 2);
-    gm.addEdge(1, 3);
-    gm.PrintGraph();
+    vector<int> temp = g.findShortestPath(0, 5);
+
+    cout << "0에서 5로 이동하는 최소 거리" << endl;
+    for (auto& e : temp)
+    {
+        cout << "->" << e;
+    }
+
 }
-
