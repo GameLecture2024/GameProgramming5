@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch11_Graph_Traverse", "..\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch12_GameGraph", "..\Ch12_GameGraph\Ch12_GameGraph.vcxproj", "{2C309DBD-EBA8-4E0E-846D-3F25AB3500BD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch13_DP", "..\Ch13_DP\Ch13_DP.vcxproj", "{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -131,6 +133,14 @@ Global
 		{2C309DBD-EBA8-4E0E-846D-3F25AB3500BD}.Release|x64.Build.0 = Release|x64
 		{2C309DBD-EBA8-4E0E-846D-3F25AB3500BD}.Release|x86.ActiveCfg = Release|Win32
 		{2C309DBD-EBA8-4E0E-846D-3F25AB3500BD}.Release|x86.Build.0 = Release|Win32
+		{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}.Debug|x64.ActiveCfg = Debug|x64
+		{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}.Debug|x64.Build.0 = Debug|x64
+		{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}.Debug|x86.ActiveCfg = Debug|Win32
+		{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}.Debug|x86.Build.0 = Debug|Win32
+		{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}.Release|x64.ActiveCfg = Release|x64
+		{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}.Release|x64.Build.0 = Release|x64
+		{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}.Release|x86.ActiveCfg = Release|Win32
+		{53E0CA97-0049-4BE1-AA79-9E1AAACA0D52}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
