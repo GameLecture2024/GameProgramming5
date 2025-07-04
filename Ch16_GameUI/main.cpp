@@ -5,6 +5,9 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <InventoryDP.h>
+#include <queue>
+#include <string>
 using namespace std;
 
 /*
@@ -82,37 +85,199 @@ void PrintProgressBar(int current, int total, int width = 30)
 
 void LoadingAnimation()
 {
+	const int total = 3;
+	const int width = 30;
 
 	cout << "로딩 진행 현황을 그려준다." << endl;
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i <= total; i++)
 	{
-		PrintProgressBar(i, 20);
-		cout << endl;
+		system("cls");
+		PrintProgressBar(i, total, width);
 		cout.flush();
-		Sleep(100);
+		Sleep(50);
 	}
 
 	// vector자료구조에 진행현황을 그림으로 저장을 했다가 갱신을 하는 방식.
 }
 
-void DrawBox()	// 가로, 세로
+void DrawBox(int width, int height)	// 가로, 세로
 {
 	/*
 	*  상자는 위, 중간, 아래 부분으로 구분이 됩니다.
 	*  반복문을 이용해서 표현해보세요.
 	*/
 
+	// 머리
+	cout << Color::BG_CYAN << "+";
+	for (int i = 0; i < width; i++)
+	{
+		cout << "-";
+	}
+	cout <<	"+" << Color::RESET << endl;
 
-	cout << Color::BG_CYAN << "+--------+" << Color::RESET << endl;
-	Color::Print(Color::BG_CYAN, Color::WHITE, "|");
-	cout << "        ";
-	Color::Print(Color::BG_CYAN, Color::WHITE, "|");
-	cout << endl;
-	Color::Print(Color::BG_CYAN, Color::WHITE, "|");
-	cout << "        ";
-	Color::Print(Color::BG_CYAN, Color::WHITE, "|");
-	cout << endl;
-	cout << Color::BG_CYAN << "+--------+" << Color::RESET << endl;
+
+	for (int y = 0; y < height; y++)
+	{
+		// 왼쪽 벽
+		Color::Print(Color::BG_CYAN, Color::WHITE, "|");
+
+	    // 공백
+		for (int i = 0; i < width; i++)
+		{
+			cout << " ";
+		}
+		// 오른쪽 벽
+		Color::Print(Color::BG_CYAN, Color::WHITE, "|");
+		cout << endl;
+	}
+
+	// 바닥
+	cout << Color::BG_CYAN << "+";
+	for (int i = 0; i < width; i++)
+	{
+		cout << "-";
+	}
+	cout << "+" << Color::RESET << endl;
+}
+
+/*
+*  gotoXY(int x, int y)
+*/
+
+void gotoXY(int x, int y)
+{
+	COORD pos{ x,y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+/*
+*  DrawBox를 내가 원하는 좌표에 그릴 수 있도록 아래 함수를 수정해보세요.
+*  gotoXY를 이용하세요. 탑, 몸통, 바닥
+*/
+
+// 도형 그리기 + 위치 이동 합친다. => 주어진 자료를 원하는 위치에 상자 형태로 출력하는 UI 만들기.
+
+void DrawBox(int px, int py, int width, int height, const ItemW& item)	// 가로, 세로
+{
+	/*
+	*  상자는 위, 중간, 아래 부분으로 구분이 됩니다.
+	*  반복문을 이용해서 표현해보세요.
+	*/
+
+	// 머리
+	gotoXY(px, py);
+	cout << Color::BG_CYAN << "+";
+	for (int i = 0; i < width; i++)
+	{
+		cout << "-";
+	}
+	cout << "+" << Color::RESET << endl;
+
+
+	for (int y = 0; y < height; y++)
+	{
+		gotoXY(px, py + 1 + y);
+		// 왼쪽 벽
+		Color::Print(Color::BG_CYAN, Color::WHITE, "|");
+
+		// item의 정보를 출력
+		string content = "";
+
+		if (y == 1)
+		{
+			content = "이름 : " + item.GetName();
+		}
+		else if (y == 2)
+		{
+			content = "무게 : " + to_string(item.GetWeight());
+		}
+		else if (y == 3)
+		{
+			content = "가치 : " + to_string(item.GetValue());
+		}
+		
+		if (!content.empty())
+		{
+			cout << Color::CYAN << content;
+
+			for (int i = content.length(); i < width; i++)
+			{
+				cout << " ";
+			}
+		}
+		else
+		{
+			// 공백
+			for (int i = 0; i < width; i++)
+			{
+				cout << " ";
+			}
+		}
+	
+		// 오른쪽 벽
+		Color::Print(Color::BG_CYAN, Color::WHITE, "|");
+		cout << endl;
+	}
+
+	// 바닥
+	gotoXY(px, py + height + 1);
+	cout << Color::BG_CYAN << "+";
+	for (int i = 0; i < width; i++)
+	{
+		cout << "-";
+	}
+	cout << "+" << Color::RESET << endl;
+}
+
+
+void TestI(const ItemW& item)
+{
+	cout << item.GetName() << endl;
+}
+
+void ProcedualDrawBox(int startX, int startY, std::vector<ItemW>& items)
+{
+	queue<ItemW> itemQueue;
+
+	for (auto& item : items)
+	{
+		itemQueue.push(item);
+	}
+
+
+
+	// ctrl + R + R
+	int currentRow = 0; // 현재 그려야할 도형의 X좌표
+	int currentCol = 0; // 현재 그려야할 도형의 Y좌표
+
+	const int Box_Width = 20;
+	const int Box_Height = 10;
+	const int Box_RowSpacing = 5;
+	const int Box_ColSpacing = 5;
+
+	// 3 * 3
+	while (!itemQueue.empty())
+	{
+		ItemW currentItem = itemQueue.front();
+		itemQueue.pop();
+		// ItemW 타입을 사용하는 함수를 만들어보세요.
+
+		int boxX = startX + (currentRow * (Box_RowSpacing + Box_Width));
+		int boxY = startY + (currentCol * (Box_ColSpacing + Box_Height));
+
+		// 좌표를 수정해주는 코드를 작성하세요. 3x3 박스로 아이템이 그려지도록 코드를 만들어보세요.
+
+		DrawBox(boxX, boxY, Box_Width, Box_Height, currentItem);
+
+		currentRow++; // 0 ,1 , 2
+		if (currentRow >= 3)
+		{
+			currentRow = 0;
+			currentCol++;
+		}
+
+		Sleep(100);
+	}
 }
 
 int main()
@@ -134,7 +299,24 @@ int main()
 	// 1. 게임 시작 
 	// 2. 게임 종료
 	
-	//LoadingAnimation();
+	LoadingAnimation();
+	//system("cls");
 
-	DrawBox();
+	InventoryW inventory(7);
+
+	// 6, 4, 3, 5
+	// 13,8, 6, 12
+	ItemW A("A", 6, 13);
+	ItemW B("B", 4, 8);
+	ItemW C("C", 3, 6);
+	ItemW D("D", 5, 12);
+
+	std::vector<ItemW> selectableTable{ A,B,C,D };
+
+	std::pair<int, std::vector<ItemW>> bestitems = inventory.findBestItem(7, selectableTable);
+
+	std::cout << "주어진 아이템의 최대 가치 :" << bestitems.first << std::endl;
+	std::vector<ItemW> ItemC = bestitems.second;
+
+	ProcedualDrawBox(5,5, ItemC);
 }
